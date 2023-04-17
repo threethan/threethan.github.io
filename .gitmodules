@@ -1,0 +1,9 @@
+[submodule "projects/Speech-Advisor-Web"]
+	path = projects/Speech-Advisor-Web
+	url = https://github.com/threethan/Speech-Advisor-Web.git
+[submodule "projects/portfolio-2020"]
+	path = projects/portfolio-2020
+	url = https://github.com/threethan/portfolio-2020.git
+[submodule "PWAs"]
+	path = PWAs
+	url = https://github.com/threethan/PWAs.git

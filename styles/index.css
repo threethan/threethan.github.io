@@ -1,0 +1,79 @@
+body {
+    font-family: Roboto, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 110%;
+    background-color: #1f1c1c;
+    margin: 0;
+    padding: 10px;
+}
+
+#content {
+    margin: 0 10%;
+}
+@media screen and (min-width: 1500px) {
+    #content {
+        width: 1200px;
+        margin-left: calc(50% - 600px);
+    }  
+}
+@media screen and (max-width: 700px) {
+    #content {
+        margin: 0;
+    }  
+}
+
+
+.block {
+    padding: 20px;
+    margin: 15px 0;
+    background-color: #4d4243;
+    border-radius: 12px;
+}
+
+a {
+    text-decoration: none;
+    color: #daa7a9;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+a::after {
+    display: inline-flex;
+    content: url('../res/icon/link.svg');
+    height: 0.85em;
+    transform: translate(4px, 0.07em);
+    margin-right: 2px;
+}
+a.app::after {
+    content: url('../res/icon/app.svg');
+}
+a.play::after {
+    content: url('../res/icon/play.svg');
+}
+a.git::after {
+    content: url('../res/icon/git.svg');
+}
+a.itch::after {
+    content: url('../res/icon/itch.svg');
+}
+
+h1 {
+    font-weight: 600;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+h2 {
+    margin: 0;
+    margin-bottom: 10px;
+    margin-top: -6px;
+    font-weight: 700;
+}
+
+br {
+    display: block;
+    margin-top: 10px;
+}
+
+h2 b {
+    font-weight: bolder;
+}

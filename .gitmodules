@@ -7,3 +7,4 @@
 [submodule "PWAs"]
 	path = PWAs
 	url = https://github.com/threethan/PWAs.git
+	branch = main

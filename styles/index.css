@@ -4,6 +4,9 @@ body {
     background-color: #1f1c1c;
     margin: 0;
     padding: 10px;
+    padding-top: 40px;
+    min-height: calc(100vh - 50px);
+    color: white;
 }
 
 #content {
@@ -26,7 +29,7 @@ body {
     padding: 20px;
     margin: 15px 0;
     background-color: #4d4243;
-    border-radius: 12px;
+    border-radius: 15px;
 }
 
 a {
@@ -76,4 +79,56 @@ br {
 
 h2 b {
     font-weight: bolder;
+}
+
+.light {
+    font-weight: 400;
+}
+
+#share-ios {
+    color: #0f8dff;
+}
+#share-ios::after {
+    content: url('../res/icon/share-ios.svg');
+}
+#install-chrome::after {
+    content: url('../res/icon/install-chrome.png');
+    margin: 0 3px;
+}
+ol, ul {
+    margin: 0;
+    padding-left: 20px;
+}
+li {
+    margin-top: 8px;
+    margin-left: 0;
+}
+.subtitle {
+    display: block;
+    margin-top: -9px;
+    padding-bottom: 6px;
+    font-weight: 600;
+}
+
+img {
+    height: calc(21vw - 0.42 * 60px);
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-right: 8px;
+    margin-bottom: -3px;
+}
+@media screen and (min-width: 1500px) {
+    img {
+        height: 296px;
+    }  
+}
+.snippet {
+    background-color: #1f1c1c50;
+    margin: -3px;
+    padding: 3px;
+    border-radius: 8px;
+    display: inline;
+    break-before: avoid;
+    break-after: avoid;
+    color: #daa7a9;
 }

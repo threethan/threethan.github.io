@@ -12,18 +12,34 @@ body {
 #content {
     margin: 0 10%;
 }
+img {
+    height: calc(19.8vw - 12px);
+    border-radius: 8px;
+    margin-top: 14px;
+    margin-right: 8px;
+    margin-bottom: -5px;
+}
+img:last-of-type {
+    margin-right: -10px;
+}
+@media screen and (max-width: 50em) {
+    #content {
+        margin: 0;
+    } 
+    img {
+        height: calc(25vw - 16px);
+        min-height: 200px;
+    }
+}
 @media screen and (min-width: 1500px) {
     #content {
         width: 1200px;
-        margin-left: calc(50% - 600px);
+        margin-left: calc(50% - 600px) !important;
+    }  
+    img {
+        height: 296px;
     }  
 }
-@media screen and (max-width: 700px) {
-    #content {
-        margin: 0;
-    }  
-}
-
 
 .block {
     padding: 20px;
@@ -40,6 +56,7 @@ a:hover {
     text-decoration: underline;
 }
 
+/* Link Types */
 a::after {
     display: inline-flex;
     content: url('../res/icon/link.svg');
@@ -58,6 +75,17 @@ a.git::after {
 }
 a.itch::after {
     content: url('../res/icon/itch.svg');
+}
+/* Inline Icons */
+#share-ios {
+    color: #0f8dff;
+}
+#share-ios::after {
+    content: url('../res/icon/share-ios.svg');
+}
+#install-chrome::after {
+    content: url('../res/icon/install-chrome.png');
+    margin: 0 3px;
 }
 
 h1 {
@@ -85,16 +113,6 @@ h2 b {
     font-weight: 400;
 }
 
-#share-ios {
-    color: #0f8dff;
-}
-#share-ios::after {
-    content: url('../res/icon/share-ios.svg');
-}
-#install-chrome::after {
-    content: url('../res/icon/install-chrome.png');
-    margin: 0 3px;
-}
 ol, ul {
     margin: 0;
     padding-left: 20px;
@@ -110,18 +128,6 @@ li {
     font-weight: 600;
 }
 
-img {
-    height: calc(21vw - 0.42 * 60px);
-    border-radius: 8px;
-    margin-top: 8px;
-    margin-right: 8px;
-    margin-bottom: -3px;
-}
-@media screen and (min-width: 1500px) {
-    img {
-        height: 296px;
-    }  
-}
 .snippet {
     background-color: #1f1c1c50;
     margin: -3px;

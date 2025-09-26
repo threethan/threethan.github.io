@@ -1,0 +1,216 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quest Game Tuner Installer</title>
+    <link rel="stylesheet" href="res/styles/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <script src="res/script/webadb.js"></script>
+    <script src="res/script/installer.js"></script>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+</head>
+
+<body>
+    <h1 class="title"><a href="https://threethan.itch.io/quest-game-tuner" target="_blank"><img
+                src="./res/image/header.png" style="max-height: 58px" alt="Quest Game Tuner Installer"></a></h1>
+    <div class="wrapper">
+        <div class="section-major section-current">
+            <h1>1. Enable Developer Mode</h1>
+            <div class="section-content">
+                <div class="hbox">
+                    <div class="hbox-item">
+                        <p class="semibold">To enable Developer Mode on your Quest headset, follow these steps:</p>
+                        <ol>
+                            <li>Sign in with your Meta account on <a href="https://developers.meta.com/horizon/manage"
+                                    target="_blank">dashboard.oculus.com</a>.</li>
+                            <li>Create a new 'organization' and name it whatever you want.</li>
+                            <li>Follow the prompt to verify your Meta account.</li>
+                            <li>Open the <span class="semibold">Meta Horizon</span> app on your phone.</li>
+                        </ol>
+                        <ul>
+                            <li>Go to <i>Devices</i> and select your connected headset.</li>
+                            <li>Select <i>Headset Settings</i>, then <i>Developer Mode</i>, and toggle it on.</li>
+                        </ul>
+                        <br />
+                        <button class="button-minor button-next" onclick="setSectionTo(1)">I've turned on Developer
+                            Mode</button>
+                    </div>
+                    <div class="hbox-item">
+                        <iframe class="embed-video" src="https://www.youtube.com/embed/j4WvIpYlie4?si=yGZDCJcJwEDwdOo8"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-separator"></div>
+        <div class="section-major">
+            <h1>2. Connect your Headset</h1>
+            <div class="section-content">
+                <div class="hbox">
+                    <div class="hbox-item">
+                        <p class="semibold">Connect your Quest headset to your computer using a USB cable.</p>
+                        <ol>
+                            <li>Make sure your Quest is turned on, connected, and in developer mode</li>
+                            <li>Click the button below</li>
+                            <li>Select your Quest from the pop-up, then click connect</li>
+                        </ol>
+                    </div>
+                    <div class="hbox-item">
+                        <img src="./res/image/connect.jpg" alt="Connect your Quest"
+                            class="nestle-button standard-image">
+                        </p>
+                    </div>
+                </div>
+                <button class="button-major" id="connect-button" onclick="connect()">Connect over USB</button>
+                <div class="section-minor p hidden bottom" id="connect-message-no-device">
+                    <b>No device selected!</b>
+                    <p class="smalltext bottom">
+                        If your Quest doesn't show up, try a different USB cable or toggle <i>Developer Mode</i> off and
+                        on again.
+                    </p>
+                </div>
+                <div class="hidden bottom" id="connect-message-click-allow">
+                    <button class="button-minor button-next" disabled>Connected ✓</button>
+                    <div class="section-minor p bottom">
+                        Click <span class="semibold">Allow</span> on your Quest headset to continue.
+                        <p class="smalltext">
+                            Put on your headset and look for the prompt asking you to allow USB debugging. Click <span
+                                class="semibold">Allow</span>, then check back here.
+                        </p>
+                        <p class="smalltext bottom">
+                            If you cancelled the prompt, <a onclick="reconnect()">click here to try again.</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="section-minor p hidden bottom" id="connect-message-error">
+                    <span class="semibold">Error connecting to device.</span>
+                    <p class="smalltext bottom">
+                        Close any other apps or tabs using ADB, then try again.
+                    </p>
+                </div>
+                <div class="section-minor p hidden bottom" id="connect-message-error-detailed">
+                    <span class="semibold">Error connecting to device.</span>
+                    <p class="smalltext">
+                        Close all other apps on your computer which might be using ADB <i>(SideQuest, Meta Quest
+                            Developer Hub, other tabs)</i>
+                    </p>
+                    <p class="smalltext">
+                        If you have previously opened ADB from a terminal, run <code
+                            class="monospace">adb kill-server</code>.
+                    </p>
+                    <p class="smalltext bottom">
+                        Sometimes it helps to unplug and replug the USB cable, or to restart your PC.
+                    </p>
+                </div>
+                <p id="connect-message" class="section-minor">Waiting to connect...</p>
+                <p class="smalltext bottom" id="connect-message-go-back"><a onclick="setSectionTo(0)">Go Back</a> if
+                    your Quest isn't in developer mode.</p>
+            </div>
+        </div>
+        <div class="section-separator"></div>
+        <div class="section-major">
+            <h1>3. Install Quest Game Tuner</h1>
+            <div class="section-content">
+                <div class="hbox">
+                    <div class="hbox-item">
+                        <p>Press the button to install <b>Quest Game Tuner</b> on your <span
+                                class="devicename">headset</span>.</p>
+                        <p class="smalltext">The latest version will be downloaded and installed.</p>
+                        <p class="smalltext bottom">If you have an older version of Quest Game Tuner installed, it will
+                            be upgraded automatically.</p>
+                        <br />
+                    </div>
+                    <div class="hbox-item">
+                        <img src="./res/image/install.webp" alt="Installing to your Headset"
+                            class="standard-image nestle-button">
+                    </div>
+                </div>
+                <button class="button-major button-next" id="install-button" onclick="install()">Install <b>Quest Game
+                        Tuner</b></button>
+                <button class="button-minor button-next hidden" id="install-progress" disabled>Installing...</button>
+                <p class="execute-output hidden throbber-after"></p></button>
+            </div>
+        </div>
+        <div class="section-separator"></div>
+        <div class="section-major">
+            <h1>4. Activate Quest Game Tuner</h1>
+            <div class="section-content">
+                <div class="hbox">
+                    <div class="hbox-item">
+                        <p>Enter your 6-digit activation code from the <a
+                                href="https://threethan.itch.io/quest-game-tuner" target="_blank">itch.io</a> purchase
+                            page:</p>
+                        <div class="hbox">
+                            <div id="activation-wrapper">
+                                <input type="text" id="activation-code" pattern="[A-Z0-9]+" class="monospace"
+                                    maxlength="6">
+                            </div>
+                            <button class="button-major button-next" id="activate-button"
+                                onclick="activate()">Activate</button>
+                            <button class="button-minor button-next" id="activate-progress"
+                                disabled>Activating...</button>
+                        </div>
+                        <p><br /></p>
+                        <p class="smalltext bottom">If you lost your code, you may be able to <a
+                                href="https://itch.io/docs/buying/already-bought" target="_blank">recover it on
+                                itch.io</a>.</p>
+
+                        <p class="smalltext bottom" id="message-activate-demo">If you haven't purchased <span
+                                class="semibold">Quest Game Tuner</span> yet, you can open it and try a small demo on
+                            your
+                            device now.</p>
+                    </div>
+                    <div class="hbox-item">
+                        <img src="./res/image/activate.png" alt="Click 'Get Download Key' on your purchase page"
+                            class="standard-image">
+                    </div>
+                </div>
+                <p class="execute-output hidden throbber-after"></p>
+
+
+                <div class="section-minor bottom hidden p" id="message-activate-failed">
+                    <b>Activation failed</b>
+                    <p>Make sure you entered the code correctly, and try again.</p>
+                    <p class="smalltext bottom">If you continue to have issues, leave a message on the <a
+                            href="https://threethan.itch.io/quest-game-tuner/devlog/816040/questions-support-and-requests"
+                            target="_blank">support page</a> for support.</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-separator"></div>
+        <div class="section-major">
+            <h1>5. Enjoy a better Quest!</h1>
+            <div class="section-content">
+                <p>With <b>Quest Game Tuner</b>, you've unlocked the full power of your <span
+                        class="devicename">headset</span>.</p>
+                <img src="./res/image/tune.png" class="glow" alt="Quest Game Tuner Screenshot">
+                <p>Enjoy enhanced performance and new customization options for your VR experience!</p>
+
+                <p class="smalltext bottom">The <b>Quest Game Tuner</b> app can be found in the <i><b>Unknown
+                            Sources</b></i> section of your <span class="devicename">headset</span>'s app library.</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="overlay hidden" id="overlay"></div>
+    <div class="popup glow section-major section-current hidden" id="unsupported-browser-popup">
+        <h1>Unsupported Browser</h1>
+        <p>This browser is unable to set up <a href="https://threethan.itch.io/quest-game-tuner"><b>Quest Game
+                    Tuner</b></a>.</p>
+        <p>Please open this page in a compatible browser, such as <a href="https://www.google.com/chrome/"><b>Google
+                    Chrome</b></a>.</p>
+        <p class="smalltext bottom">You're seeing this because your browser doesn't support <a
+                href="https://developer.mozilla.org/en-US/docs/Web/API/WebUSB_API">WebUSB</a>.</p>
+    </div>
+    </div>
+    <script src="res/script/index.js"></script>
+</body>

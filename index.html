@@ -4,7 +4,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="res/styles/index.css">
 
     <link rel="icon" type="image/png" sizes="32x32" href="res/icon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="res/icon/favicon-16x16.png">
@@ -20,12 +20,43 @@
         <a href="https://github.com/threethan" class="git">GitHub</a>&nbsp;
         <a href="https://play.google.com/store/apps/developer?id=Ethan+M" class="play">Google Play</a>&nbsp;
         <a href="https://threethan.itch.io/" class="itch">Itch.io</a>&nbsp;
+        <a href="https://sidequestvr.com/user/1952381/" class="sidequest">SideQuest</a>&nbsp;
         <br>
         I'm a student and software developer. This simple website was created to host
         <a href="apps">progressive web apps</a>,
         and to give a quick overview of some of the things I've worked on.
     </div>
     
+    <h1>Meta Quest Utilities</h1>
+    Meta's Quest devices run a customized and locked down version of Android.
+    These tools aim to unlock additional functionality, allowing users the freedom to use
+    the full potential of their headset.
+
+    <div class="block">
+        <h2>Lightning Launcher</h2>
+        <a href="https://github.com/threethan/LightningLauncher" class="git">GitHub</a>&nbsp;
+        <a href="https://sidequestvr.com/app/21783/lightning-launcher" class="sidequest">SideQuest</a>&nbsp;
+        <a href="https://threethan.itch.io/lightning-launcher" class="itch">Itch.io</a>
+        <br>
+        Most popular third-party app launcher for Meta Quest. Also supports Android TV devices.
+        <br>
+        <img src="res/image/promo/lightning-launcher/banner.jpg">
+        <img src="res/image/promo/lightning-launcher/screen.png">
+    </div>
+    <div class="block">
+        <h2>Quest Game Tuner</h2>
+        <a href="https://sidequestvr.com/app/38247/quest-game-tuner" class="sidequest">SideQuest</a>&nbsp;
+        <a href="https://threethan.itch.io/quest-game-tuner" class="itch">Itch.io</a>&nbsp;
+        <a href="./get-tuner/" class="app">Installer</a>
+        <br>
+        A paid app that allows users to customize graphics settings for individual games -  
+        including resolution, frame rate, and performance modes.
+        <br>
+        <img src="res/image/promo/quest-game-tuner/banner.png">
+        <img src="res/image/promo/quest-game-tuner/screen.png">
+    </div>
+    
+
     <h1>Game Development</h1>
     I develop games in my free time, and have a few currently released on 
     <a href="https://play.google.com/store/apps/developer?id=Ethan+M" class="play">Google Play</a>.
@@ -85,9 +116,12 @@
     I enjoy modifying and reverse engineering video games, and have publically released a few
     mods and modding tools.
     <div class="block">
-        <h2><a href="https://gamebanana.com/mods/325588">Sonic Colors DX</a></h2>
-        An unofficial remaster of the Wii game Sonic Colors, using a customized shader pipeline
-        and a modified version of the Dolphin emulator.
+        <h2><a href="https://gamebanana.com/mods/607445">XCX:DE Cut Content Restoration Mod</a></h2>
+        An expanded version of the original mod which restores even more cut content to the Nintendo Switch
+        "Definitive Edition" of Xenoblade Chronicles X
+        <br>
+        <img src="res/image/promo/xenoblade-cut-content/banner.jpg">
+        <img src="res/image/promo/xenoblade-cut-content/screen.jpg">
     </div>
     <div class="block">
         <h2><a href="https://github.com/threethan/XCX-Cut-Content-Mod">XCX Content Restoration Mod</a></h2>
@@ -97,6 +131,12 @@
 
         Made using my <a href="https://github.com/threethan/Xenoblade-Bdat" class="git">Xenoblade BDAT Editor</a>
     </div>
+    <div class="block">
+        <h2><a href="https://gamebanana.com/mods/325588">Sonic Colors DX</a></h2>
+        An unofficial remaster of the Wii game Sonic Colors, using a customized shader pipeline
+        and a modified version of the Dolphin emulator.
+    </div>
+
 
     <h1>Custom CSS</h1>
     I'm a stickler for inconsistent or busy UI, so I've made a few custom CSS themes for applications
@@ -108,49 +148,18 @@
         that focuses on readability, usability, and customization. It supports desktop on mobile,
         with various UI and UX improvements for both platforms.
         <br>
-        Material Flat is available for download and install through the in-app theme browser.
-    </div>
-    <div class="block">
-        <h2><a href="https://gist.github.com/threethan/e4f0a7c50252eb22fad57b2a52fb1d33" class="git">Native Windows Menus for Firefox</a></h2>
-        A <a href="https://www.userchrome.org/">userChrome.css</a>
-        snippet for the Firefox web browser that improves the apperance of context
-        menus to match those of native windows apps.
-    </div>
-
-    <h1>Oculess Quest Utilities</h1>
-    Meta's Oculess Quest devices run a customized and locked down version of Android 10.
-    These tools aim to unlock additional functionality, allowing users the freedom to use
-    the full potential of their headset.
-
-    <div class="block">
-        <h2><a href="https://github.com/basti564/Oculess" class="git">Background Audio</a></h2>
-        Hooks system libraries to allow apps to play and record audio in the background, including
-        voice chat and music during gameplay. This functionality was merged with the existing admin
-        tool Oculess.
-    </div>
-    <div class="block">
-        <h2><a href="https://github.com/threethan/QuestHiddenSettings" class="git">Hidden Settings</a></h2>
-        A sideloadable app that allows easy access to various device settings and features
-        that are otherwise not accessible on these devices.
-    </div>
-    <div class="block">
-        <h2><a href="https://github.com/threethan/QuestLauncherTool" class="git">Launcher Tool</a></h2>
-        A batch script, with included dependencies, that allows sideloaded apps to be added to
-        the main screen of the launcher through adb and androidmanifest modification.
+        Material Flat is available for download and install through Obsidian's theme browser.
+        <br>
+        <img src="res/image/promo/material-flat/banner.png">
     </div>
 
     <h1>Older Projects</h1>
-    Some noteworthy projects from my highschool days. Some of these are a bit out of date, and
+    Some of these are a bit out of date, and
     none are actively maintained, but they all work nonetheless.
     <div class="block">
         <h2><a href="projects/Speech-Advisor-Web/index.html" class="app">Speech Advisor Web</a></h2>
         The web-app port of my team's 1st place project at Metrohacks III. Requires
         Chrome-specific speech recognition APIs, so it may not work on other browsers.
-    </div>
-    <div class="block">
-        <h2><a href="projects/portfolio-2020/index.html" class="app">Highschool Portfolio</a></h2>
-        My old portfolio site from Highschool. Horribly out of date, but still a fun
-        concept with sliding panes.
     </div>
     <div class="block">
         <h2><a href="https://threethan.itch.io/chesscourt-mission" class="app">Chesscourt Mission</a></h2>

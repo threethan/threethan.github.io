@@ -24,6 +24,7 @@ body {
 }
 * {
     font-family: "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 *::selection {
     background: var(--color-accent);
@@ -316,10 +317,17 @@ img {
         flex-direction: column-reverse;
         align-items: stretch;
     }
+    .hbox-no-reverse {
+        flex-direction: column;
+    }
     .hbox-item {
         margin-right: 0;
         margin-left: -5px;
         margin-bottom: var(--margin-major);
+    }
+    
+    .hbox-no-reverse button {
+        margin-top: var(--margin-major);
     }
     .hbox-item:last-child {
         margin-bottom: 0;
@@ -338,5 +346,15 @@ img {
         max-height: 100px;
         width: 100%;
         object-fit: cover;
+    }
+    .wrapper {
+        padding: var(--padding-minor) 0;
+    }
+    .section-major.section-current h1 {
+        translate: 0 -30px;
+    }
+    .section-separator {
+        height: var(--margin-minor);
+        border: 2px solid transparent;
     }
 }

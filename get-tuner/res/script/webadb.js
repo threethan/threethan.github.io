@@ -14,7 +14,7 @@
 	let Adb = {};
 
 	Adb.Opt = {};
-	Adb.Opt.debug = false;
+	Adb.Opt.debug = true;
 	Adb.Opt.dump = false;
 
 	Adb.Opt.key_size = 2048;
@@ -54,8 +54,7 @@
 		];
 
 		return navigator.usb.requestDevice({ filters: filters })
-			.then(device => device.open()
-				.then(() => new Adb.WebUSB.Transport(device)));
+			.then(device => new Adb.WebUSB.Transport(device));
 	};
 
 	Adb.WebUSB.Transport.prototype.close = function() {
@@ -93,6 +92,7 @@
 					if (filter.classCode == alt.interfaceClass &&
 					    filter.subclassCode == alt.interfaceSubclass &&
 					    filter.protocolCode == alt.interfaceProtocol) {
+							console.log("Found matching interface:", alt);
 						return { conf: conf, intf: intf, alt: alt };
 					}
 				}
@@ -112,15 +112,28 @@
 		return match != null;
 	};
 
+	async function getDeviceInternal(match) {
+		if (!this.device.opened) {
+			await this.device.open();
+		}
+		if (!this.device.configuration || this.device.configuration.configurationValue !== match.conf.configurationValue) {
+			await this.device.selectConfiguration(match.conf.configurationValue);
+		}
+		if (!match.intf.claimed) {
+			await this.device.claimInterface(match.intf.interfaceNumber);
+		}
+		if (this.device.alternate && this.device.alternate.alternateSetting !== match.alt.alternateSetting) {
+			await this.device.selectAlternateInterface(match.intf.interfaceNumber, match.alt.alternateSetting);
+		}
+	}
 	Adb.WebUSB.Transport.prototype.getDevice = function(filter) {
 		let match = this.find(filter);
-		return this.device.selectConfiguration(match.conf.configurationValue)
-			.then(() => this.device.claimInterface(match.intf.interfaceNumber))
-			.then(() => this.device.selectAlternateInterface(match.intf.interfaceNumber, match.alt.alternateSetting))
-			.then(() => match);
+		return new Promise((resolve, reject) => {
+			getDeviceInternal.call(this, match).then(() => resolve(match)).catch(err => reject(err));
+		}).then(() => match);
 	};
 
-	Adb.WebUSB.Transport.prototype.connectAdb = function(banner, auth_user_notify = null) {
+	Adb.WebUSB.Transport.prototype.connectAdb = function(banner, auth_user_notify = null, name = null, reset_transport = false) {
 		let VERSION = 0x01000000;
 		let VERSION_NO_CHECKSUM = 0x01000001;
 		let MAX_PAYLOAD = 256 * 1024;
@@ -129,9 +142,10 @@
 		let AUTH_TOKEN = 1;
 
 		let version_used = Adb.Opt.use_checksum ? VERSION : VERSION_NO_CHECKSUM;
-		let m = new Adb.Message("CNXN", version_used, MAX_PAYLOAD, "" + banner + "\0");
+		let bannerWithName = name ? name + "::" + banner : banner;
+		let m = new Adb.Message("CNXN", version_used, MAX_PAYLOAD, "" + bannerWithName + "\0");
 		return this.getDevice({ classCode: 255, subclassCode: 66, protocolCode: 1 })
-			.then(match => new Adb.WebUSB.Device(this, match))
+			.then(match => new Adb.WebUSB.Device(this, match, reset_transport))
 			.then(adb => m.send_receive(adb)
 				.then((function do_auth_response(response) {
 					if (response.cmd != "AUTH" || response.arg0 != AUTH_TOKEN)
@@ -157,6 +171,7 @@
 					return adb;
 				})
 			);
+
 	};
 
 	Adb.WebUSB.Transport.prototype.connectFastboot = function() {
@@ -177,14 +192,14 @@
 			);
 	};
 
-	Adb.WebUSB.Device = function(transport, match) {
+	Adb.WebUSB.Device = function(transport, match, reset_transport = false) {
 		this.transport = transport;
 		this.max_payload = 4096;
 
 		this.ep_in = get_ep_num(match.alt.endpoints, "in");
 		this.ep_out = get_ep_num(match.alt.endpoints, "out");
 
-		this.transport.reset();
+		if (reset_transport) this.transport.reset();
 	}
 
 	Adb.WebUSB.Device.prototype.open = function(service) {

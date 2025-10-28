@@ -44,7 +44,7 @@ async function connect_usb()
 			webusb = await Adb.open("WebUSB");
 		}
 
-		if (!webusb || !(webusb.isAdb() || webusb.isFastboot()))
+		if (!webusb || !(webusb.isAdb() || webusb.isFastboot())) 
 			throw new Error("Could not open either ADB or Fastboot");
 	}
 	catch(error) {
@@ -66,10 +66,10 @@ async function connect_usb()
 
     connect_adb()
 }
-async function connect_adb(retry = true) {
+async function connect_adb(retry = true, reset_transport = false) {
     try {
         adb = null;
-        adb = await webusb.connectAdb("host::", () => connect_click_allow());
+        adb = await webusb.connectAdb("host::TunerOnlineInstaller", () => connect_click_allow(), "Tuner Online Installer", reset_transport);
 
         if (adb != null) {
             console.log("ADB mode");
@@ -90,12 +90,18 @@ async function connect_adb(retry = true) {
             this.connect_error();
             // Wait 1s and retry (won't work, but makes next try more likely to succeed)
             await new Promise(r => setTimeout(r, 1000));
-            connect_adb(false);
+            webusb.connect_adb(false, true);
         } else {
             state = "ready";
             adb = null;
             webusb = null;
         }
+    }
+    if (adb == null) {
+        state = "ready";
+        if (webusb != null)
+            connect_message("Could not connect to device in ADB mode. Try a different cable, or reboot both devices and try again.");
+        webusb = null;
     }
 }
 
@@ -138,62 +144,6 @@ async function execute_cmd(cmd)
 		webusb = null;
 	}
 }
-
-// async function stat_usb()
-// {
-// 	let output = this.execute_output;
-
-// 	try {
-// 		if (adb != null ) {
-// 			state = "running";
-// 			output("");
-
-// 			sync = await adb.sync();
-// 			let stat = await sync.stat(this.stat_filename());
-// 			output(JSON.stringify(stat));
-
-// 			await sync.quit();
-// 			sync = null;
-// 			this.state("connected");
-// 		}
-// 	}
-// 	catch(error) {
-// 		console.log(error);
-// 		this.connect_message(error.message);
-// 		this.state("ready");
-// 		webusb = null;
-// 	}
-// }
-
-// async function pull_usb()
-// {
-// 	let output = this.execute_output;
-// 	let bottom = document.getElementById('bottom');
-
-// 	try {
-// 		if (adb != null ) {
-// 			state = "running";
-// 			output("");
-
-// 			sync = await adb.sync();
-// 			let content = await sync.pull(this.pull_filename());
-
-// 			await sync.quit();
-// 			sync = null;
-// 			state = "connected";
-
-// 			let a = document.createElement("a")
-// 			a.href = URL.createObjectURL(new Blob([content]));
-// 			a.download = this.pull_filename().split("/").pop();
-// 			a.click();
-// 		}
-// 	}
-// 	catch(error) {
-// 		console.log(error);
-// 		output(error.message);
-// 		state = "connected";
-// 	}
-// }
 
 var xfer_stats_done = 0;
 var xfer_stats_time = 0;

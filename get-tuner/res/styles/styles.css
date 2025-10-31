@@ -110,7 +110,9 @@ a {
 a:hover {
     text-decoration: underline;
 }
-
+*::selection {
+    color: white
+}
 ol {
     margin-left: 20px;
 }
@@ -322,7 +324,7 @@ img {
     }
     .hbox-item {
         margin-right: 0;
-        margin-left: -5px;
+        margin-left: -5apx;
         margin-bottom: var(--margin-major);
     }
     

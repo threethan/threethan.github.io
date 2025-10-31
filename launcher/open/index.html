@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Lightning Launcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="./res/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./res/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./res/favicon-16x16.png">
+    <link rel="manifest" href="./site.webmanifest">
+</head>
+
+<body>
+
+    <div class="container">
+        <a href="intent://view/#Intent;scheme=launcher;package=com.threethan.launcher;S.browser_fallback_url=https%3A%2F%2Fgithub.com%2Fthreethan%2FLightningLauncher;end" class="launch-button">
+            <h1>Open Lightning Launcher</h1>
+        </a>
+        <div class="container row">
+            <span>Lightning Launcher 10 or newer required. Sideloaded version only.</span>
+            <span class="fill"></span>
+            <a href="https://github.com/threethan/LightningLauncher"><span class="lm">Learn More</span><span class="right-arrow"></span></a>
+        </div>
+    </div>
+    <script>
+        for (let link of document.getElementsByClassName("launch-button")) {
+            link.addEventListener("click", function (event) {
+                setTimeout(function () {
+                    window.close();
+                }, 1000);
+            });
+        }
+    </script>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            font-family: "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(#333, #222);
+            margin: 0;
+            color: white;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+        a:hover {
+            border-bottom: 1px solid currentColor;
+        }
+
+        .launch-button {
+            display: flex;
+            width: 100%;
+            flex-grow: 1;
+            background: #FFF2;
+            border-radius: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            text-decoration: none;
+            transition-duration: 0.1s;
+            border-bottom: 1px solid #CCC3;
+            box-shadow: 0 2px 6px #0003;
+        }
+
+        .launch-button:hover {
+            background-color: #FFF5;
+        }
+
+        .launch-button:active {
+            background-color: #CCCA;
+            border-bottom: none;
+        }
+
+        .container {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: st;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .container.row {
+            padding-bottom: 1px;
+            flex-grow: 0;
+            flex-direction: row;
+        }
+        .container.row p {
+            margin-top: 1px;
+        }
+        .fill {
+            width: 20px;
+            flex-grow: 1;
+        }
+        * {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .right-arrow {
+            display: inline-block;
+            width: 0.75rem;
+            height: 0;
+            vertical-align: middle;
+            translate: 0 -0.5pt;
+            margin-left: 6pt;
+            margin-right: 2pt;
+            border-top: 1pt solid currentColor;
+        }
+        .right-arrow::after {
+            content: "";
+            display: block;
+            width: 0.5rem;
+            height: 0.5rem;
+            border-top: 1pt solid currentColor;
+            border-right: 1pt solid currentColor;
+            transform: rotate(45deg);
+            margin-top: -0.25rem;
+            translate: 0 -1pt;
+            margin-left: calc(0.125rem + 0.5pt);
+        }
+        .lm {
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+        }
+    </style>
+</body>
+
+</html>

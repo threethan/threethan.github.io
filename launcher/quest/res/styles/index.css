@@ -20,6 +20,26 @@ body {
     padding: 40px;
 }
 
+@media screen and (max-width: 700px) {
+    #wrapper {
+        padding: 20px;
+    }
+    #subtitle {
+        margin-left: 2px;
+        margin-top: 10px;
+        font-size: 11pt;
+    }   
+}
+
+@media screen and (min-width: 900px) {
+    #wrapper {
+        max-width: 900px !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
 #wrapper blockquote, #wrapper .game_info_panel_widget {
     background: #f1f3fa;
     border: none;

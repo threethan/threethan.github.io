@@ -14,6 +14,13 @@ function setSectionTo(index) {
     hide_execute_outputs();    
 }
 
+// Remove Android-only elements on non-Android devices
+document.addEventListener('DOMContentLoaded', function() {
+    if (!/Android/i.test(navigator.userAgent)) {
+        document.querySelectorAll('.androidonly').forEach(el => el.remove());
+    }
+});
+
 let has_shown_connect_error = false;
 let show_detailed_connect_error = false;
 let exclude_error_temporarily = false;
@@ -29,6 +36,9 @@ function hide_execute_outputs() {
 if (!('usb' in navigator)) {
     document.getElementById('overlay').classList.remove('hidden');
     document.getElementById('unsupported-browser-popup').classList.remove('hidden');
+    if (/Oculus/i.test(navigator.userAgent)) {
+        document.getElementById('on-quest-popup').classList.remove('hidden');
+    }
 }
 
 

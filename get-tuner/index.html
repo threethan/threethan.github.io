@@ -74,10 +74,20 @@
                 <button class="button-major" id="connect-button" onclick="connect()">Connect over USB</button>
                 <div class="section-minor p hidden bottom" id="connect-message-no-device">
                     <b>No device selected!</b>
+                    <p class="smalltext androidonly">
+                        You seem to be running this installer on an Android device.
+                    </p>
+                    <p class="smalltext androidonly">
+                        Check for a USB connection notification, and make sure to select <i>File Transfer (MTP)</i> mode, with this device as the owner. 
+                    </p>
+                    <p class="smalltext androidonly">
+                        On some devices, such as phones from Chinese manufacturers, you might need to enable USB OTG somewhere in the settings.  
+                    </p>
                     <p class="smalltext bottom">
                         If your Quest doesn't show up, try a different USB cable or toggle <i>Developer Mode</i> off and
                         on again.
                     </p>
+
                 </div>
                 <div class="hidden bottom" id="connect-message-click-allow">
                     <button class="button-minor button-next" disabled>Connected ✓</button>
@@ -211,6 +221,12 @@
                     Chrome</b></a>.</p>
         <p class="smalltext bottom">You're seeing this because your browser doesn't support <a
                 href="https://developer.mozilla.org/en-US/docs/Web/API/WebUSB_API">WebUSB</a>.</p>
+    </div>
+    </div>
+    <div class="popup glow section-major section-current hidden" id="on-quest-popup">
+        <h1>That\'s not quite right...</h1>
+        <p>It seems like you opened this page on your Quest device.</p>
+        <p>Please open this page on a computer to set up Quest Game Tuner.</p>
     </div>
     </div>
     <script src="res/script/index.js"></script>

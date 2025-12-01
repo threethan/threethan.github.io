@@ -153,3 +153,8 @@ function activation_failed() {
     reset_activation_messages();
     document.getElementById('message-activate-failed').classList.remove('hidden');
 }
+
+function bypass_activation() {
+    enable_tcpip();
+    document.getElementById('message-activate-skipped').classList.remove('hidden');
+}

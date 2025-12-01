@@ -171,7 +171,8 @@
                                 disabled>Activating...</button>
                         </div>
                         <p><br /></p>
-                        <p class="smalltext bottom">If you lost your code, you may be able to <a
+                        <p class="smalltext bottom"><strong>Make sure to enter your code exactly!</strong>
+                            If you lost it, you may be able to <a
                                 href="https://itch.io/docs/buying/already-bought" target="_blank">recover it on
                                 itch.io</a>.</p>
 
@@ -187,14 +188,16 @@
                 </div>
                 <p class="execute-output hidden throbber-after"></p>
 
-
                 <div class="section-minor bottom hidden p" id="message-activate-failed">
                     <b>Activation failed</b>
                     <p>Make sure you entered the code correctly, and try again.</p>
                     <p class="smalltext bottom">If you continue to have issues, leave a message on the <a
                             href="https://threethan.itch.io/quest-game-tuner/devlog/816040/questions-support-and-requests"
                             target="_blank">support page</a> for support.</p>
+                    <button class="button-minor button-next" id="activate-bypass-button" 
+                    onclick="bypass_activation()">Skip Activation</button>
                 </div>
+
             </div>
         </div>
         <div class="section-separator"></div>
@@ -209,6 +212,12 @@
                 <p class="smalltext bottom">The <b>Quest Game Tuner</b> app can be found in the <i><b>Unknown
                             Sources</b></i> section of your <span class="devicename">headset</span>'s app library.</p>
 
+                <div class="section-minor bottom hidden p" id="message-activate-skipped">
+                    <b>Activation skipped</b>
+                    <p>Since you skipped entering your activation code, you might not be able to fully utilize Quest Game Tuner.</p>
+                    <p>You can enter your activation code on the device now, but you\'ll need to use the installer again if you turn it off.</p>
+                    <p><em>If you haven't bought a license yet, you can do so <a href="https://threethan.itch.io/quest-game-tuner">on itch.io</a>, or try a small demo on your headset.</em></p>
+                </div>
             </div>
         </div>
     </div>

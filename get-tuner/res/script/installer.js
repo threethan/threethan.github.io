@@ -294,6 +294,18 @@ navigator.usb.addEventListener("disconnect", (event) => {
     }
 });
 
+async function enable_tcpip() {
+    // Random 4 digit port between 5555 and 9999
+    const port = is_old_version ? 5555 : Math.floor(Math.random() * (9999 - 5555 + 1)) + 5555;
+    await execute_cmd(`shell:am start -n com.threethan.tuner/.activity.action.NaiveInitActivity`);
+    await execute_cmd(`tcpip:${port}`);
+    // Launch the app's main activity
+    output(`Setup complete! Quest Game Tuner should now connect via ADB over Wi-Fi on port ${port}.`);
+
+    activation_successful();
+    return true;
+}
+
 async function attempt_activation(key) {
 
     await execute_cmd(`shell:am start -n com.threethan.tuner/.activity.action.ActivationActivity -d ${key}`);
@@ -302,21 +314,22 @@ async function attempt_activation(key) {
     await new Promise(resolve => setTimeout(resolve, 5000));
     
     await execute_cmd(`shell:content query --uri content://com.threethan.tuner.activationStatusProvider/test --projection status --where "key='${key}'"`);
+    if (last_output.includes("No result found.")) {
+        activation_failed();
+        output("Activation status could not be verified. Skipping verification check...");
+        await enable_tcpip();
+        return false;
+    }
     if (last_output.includes("success") || is_old_version) {
         output("Activation successful! Setting up Quest Game Tuner...");
 
-        // Random 4 digit port between 5555 and 9999
-        const port = is_old_version ? 5555 : Math.floor(Math.random() * (9999 - 5555 + 1)) + 5555;
-        await execute_cmd(`shell:am start -n com.threethan.tuner/.activity.action.NaiveInitActivity`);
-        await execute_cmd(`tcpip:${port}`);
-        // Launch the app's main activity
-        output(`Setup complete! Quest Game Tuner should now connect via ADB over Wi-Fi on port ${port}.`);
+        await enable_tcpip();
 
         activation_successful();
         return true;
     } else {
         activation_failed();
-        output("Activation failed or not confirmed. Please check the app on your device.");
+        output("Activation did not succeed. Please check the app on your device or skip activation.");
         return false;
     }
 }

@@ -306,7 +306,7 @@ async function enable_tcpip() {
     return true;
 }
 
-async function attempt_activation(key) {
+async function attempt_activation(key, retry = true) {
 
     await execute_cmd(`shell:am start -n com.threethan.tuner/.activity.action.ActivationActivity -d ${key}`);
     output("Activation command sent to the app. Verifying...");
@@ -328,6 +328,11 @@ async function attempt_activation(key) {
         activation_successful();
         return true;
     } else {
+        if (retry) {
+            output("Initial failure, retrying once...");
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            return attempt_activation(key, false);
+        }
         activation_failed();
         output("Activation did not succeed. Please check the app on your device or skip activation.");
         return false;

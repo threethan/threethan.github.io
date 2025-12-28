@@ -36,7 +36,7 @@ function hide_execute_outputs() {
 if (!('usb' in navigator)) {
     document.getElementById('overlay').classList.remove('hidden');
     document.getElementById('unsupported-browser-popup').classList.remove('hidden');
-    if (/Oculus/i.test(navigator.userAgent)) {
+    if (navigator.userAgent.toLowerCase().includes("oculus") || navigator.userAgent.toLowerCase().includes("; quest ")) {
         document.getElementById('on-quest-popup').classList.remove('hidden');
     }
 }

@@ -66,6 +66,10 @@ async function connect_usb()
 
     connect_adb()
 }
+function uninstall() {
+    execute_cmd("shell:pm uninstall com.threethan.tuner");
+    document.getElementById("uninstall-section").classList.add("hidden");
+}
 async function connect_adb(retry = true, reset_transport = false) {
     try {
         adb = null;
@@ -75,11 +79,15 @@ async function connect_adb(retry = true, reset_transport = false) {
             console.log("ADB mode");
             state = "connected";
             await execute_cmd("shell:echo Test ADB connection successful.");
-            // this.stat_filename("/sdcard/Download/test_webadb.txt");
-            // this.pull_filename("/sdcard/Download/test_webadb.txt");
-            // this.push_dest("/sdcard/Download/test_webadb.txt");
-            // this.push_mode("0644");
-            connect_message("Connected to " + webusb.device.productName + " in ADB mode.");
+            await execute_cmd("shell:pm list packages com.threethan.tuner").then(() => {
+                if (last_output.includes("com.threethan.tuner")) {
+                    console.log("App is already installed.");
+                    document.getElementById("uninstall-section").classList.remove("hidden");
+                }
+            });
+            
+
+            hide_execute_outputs();
             connection_established();
         }
     }
@@ -122,7 +130,8 @@ async function execute_cmd(cmd)
 			r = await shell.receive();
 			while (r.cmd == "WRTE") {
 				if (r.data != null) {
-					output(decoder.decode(r.data));
+                    let out = decoder.decode(r.data);
+					output(out);
 				}
 
 				shell.send("OKAY");
@@ -160,17 +169,10 @@ function xfer_stats(start_time, done, total)
 	if (xfer_stats_time < start_time)
 		xfer_stats_time = start_time;
 
-	let delta = Math.round((now - start_time) / 1000);
-	let instant = Math.round(((done - xfer_stats_done) * 1000) / ((now - xfer_stats_time) * 1024));
-	let average = Math.round(done * 1000 / ((now - start_time) * 1024));
-
 	xfer_stats_done = done;
 	xfer_stats_time = now;
 
     let out = "Pushing file to device " + Math.round(100 * done / total) + "%";
-	// let out = "";
-	// out += Math.round(100 * done / total) + "% (";
-	// out += Math.round(done / 1024) + " KiB in ~" + delta + " secs at avg " + average + " KiB/s, cur " + instant + " KiB/s)";
 	output(out);
 }
 
@@ -232,12 +234,31 @@ async function install() {
 
         output(`Downloading ${apkAsset.name}...`);
 
+        let apkResponse = null;
+
 		// Download the APK file using CORS proxy
-		const proxyUrl = 'https://corsproxy.io/?url=';
-		const apkResponse = await fetch(proxyUrl + encodeURI(apkAsset.browser_download_url));
-		if (!apkResponse.ok) {
-			throw new Error(`Failed to download APK: ${apkResponse.statusText}`);
-		}
+        // Each option will be tried in order if previous fails
+        for (let proxy of [
+            "https://api.codetabs.com/v1/proxy?quest=", 
+            "https://api.cors.syrins.tech/?url=", // Likely to hit size limit
+            "https://corsproxy.io/?url=", // Wants payment now
+            "https://api.allorigins.win/raw?url=" // Likely to hit size limit
+        ]
+        ) {
+            try {
+                apkResponse = await fetch(proxy + encodeURI(apkAsset.browser_download_url));
+                if (!apkResponse.ok) {
+                    throw new Error(`Failed to download APK: ${apkResponse.statusText}`);
+                }
+                break; // Exit loop on success
+            } catch (error) {
+                console.warn(`Download attempt failed with ${proxy}:`, error);
+            }
+        }
+        if (apkResponse == null || !apkResponse.ok) {
+            output("Could not download APK.");
+            throw new Error("All download attempts failed.");
+        }
 
         const apkBlob = await apkResponse.blob();
         output(`Downloaded ${apkAsset.name} (${Math.round(apkBlob.size / 1024)} KB)`);
@@ -313,9 +334,9 @@ async function attempt_activation(key, retry = true) {
     // Wait 5 seconds before checking activation status
     await new Promise(resolve => setTimeout(resolve, 5000));
     
-    await execute_cmd(`shell:content query --uri content://com.threethan.tuner.activationStatusProvider/test --projection status --where "key='${key}'"`);
+    await execute_cmd(`shell:content query --uri content://com.threethan.tuner.activationStatusProvider/test/${key} --projection status`);
     if (last_output.includes("No result found.")) {
-        activation_failed();
+        activation_failed("Activation status could not be verified.");
         output("Activation status could not be verified. Skipping verification check...");
         await enable_tcpip();
         return false;
@@ -332,6 +353,11 @@ async function attempt_activation(key, retry = true) {
             output("Initial failure, retrying once...");
             await new Promise(resolve => setTimeout(resolve, 2000));
             return attempt_activation(key, false);
+        }
+        let spl1 = last_output.split("message=");
+        let msg = spl1.size > 1 ? spl1[1].split(";")[0].trim() || "Activation failed." : "Activation failed.";
+        if (msg.toLowerCase().includes("check your internet connection")) {
+            msg = "Please ensure your headset has an active internet connection and try again.";
         }
         activation_failed();
         output("Activation did not succeed. Please check the app on your device or skip activation.");

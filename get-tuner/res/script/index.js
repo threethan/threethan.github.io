@@ -113,7 +113,6 @@ function connect_message(msg) {
     document.getElementById('connect-message').innerText = msg;
     document.getElementById('connect-message').classList.remove('hidden');
 }
-
 function connection_lost() {
     if (!is_complete) setSectionTo(1);
     connect_message("Connection lost. Please reconnect your device.");
@@ -146,12 +145,16 @@ function reset_activation_messages() {
     document.getElementById('message-activate-failed').classList.add('hidden');
     document.getElementById('activate-progress').classList.add('hidden');
     document.getElementById('activate-button').classList.remove('hidden');
+    document.getElementById('activate-output').innerText = '';
+    document.getElementById('activate-output').classList.add('hidden');
     hide_execute_outputs();
 }
 
-function activation_failed() {
+function activation_failed(msg) {
     reset_activation_messages();
     document.getElementById('message-activate-failed').classList.remove('hidden');
+    document.getElementById('activate-output').innerText = msg;
+    document.getElementById('activate-output').classList.remove('hidden');
 }
 
 function bypass_activation() {

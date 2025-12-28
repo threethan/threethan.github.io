@@ -132,12 +132,16 @@
             <h1>3. Install Quest Game Tuner</h1>
             <div class="section-content">
                 <div class="hbox">
+                    
                     <div class="hbox-item">
                         <p>Press the button to install <b>Quest Game Tuner</b> on your <span
                                 class="devicename">headset</span>.</p>
                         <p class="smalltext">The latest version will be downloaded and installed.</p>
                         <p class="smalltext bottom">If you have an older version of Quest Game Tuner installed, it will
                             be upgraded automatically.</p>
+                        <div class="section-minor hidden bottom" style="margin-top: 10px" id="uninstall-section">
+                            <span class="smalltext">If you're having issues, <a href="#" onclick="uninstall()">click here</a> to fully uninstall the current version of Quest Game Tuner before continuing. <i>(Any settings will be lost!)</i></span>
+                        </div>
                         <br />
                     </div>
                     <div class="hbox-item">
@@ -170,7 +174,7 @@
                             <button class="button-minor button-next" id="activate-progress"
                                 disabled>Activating...</button>
                         </div>
-                        <p><br /></p>
+                        <p id="activate-output"></p><br />
                         <p class="smalltext bottom"><strong>Make sure to enter your code exactly!</strong>
                             If you lost it, you may be able to <a
                                 href="https://itch.io/docs/buying/already-bought" target="_blank">recover it on
@@ -188,15 +192,15 @@
                 </div>
                 <p class="execute-output hidden throbber-after"></p>
 
+                <p class="section-minor hidden p" id="activation-output"></p>
                 <div class="section-minor bottom hidden p" id="message-activate-failed">
                     <b>Activation failed</b>
                     <p>Make sure you entered the code correctly, and try again.</p>
-                    <p class="smalltext bottom">If you continue to have issues, leave a message on the <a
+                    <p class="smalltext bottom">If you continue to have issues, leave a message on <a
                             href="https://threethan.itch.io/quest-game-tuner/devlog/816040/questions-support-and-requests"
-                            target="_blank">support page</a> for support. 
+                            target="_blank">this support page</a>. 
                             You can also choose to <a onclick="bypass_activation()">skip activation</a>.</p>
                 </div>
-
             </div>
         </div>
         <div class="section-separator"></div>

@@ -256,8 +256,8 @@ async function install() {
             }
         }
         if (apkResponse == null || !apkResponse.ok) {
-            output("Could not download APK.");
-            throw new Error("All download attempts failed.");
+            output("Could not download latest APK, using local...");
+            apkResponse = await fetch("res/Quest-Game-Tuner.apk");
         }
 
         const apkBlob = await apkResponse.blob();
@@ -359,7 +359,7 @@ async function attempt_activation(key, retry = true) {
         if (msg.toLowerCase().includes("check your internet connection")) {
             msg = "Please ensure your headset has an active internet connection and try again.";
         }
-        activation_failed();
+        activation_failed(msg);
         output("Activation did not succeed. Please check the app on your device or skip activation.");
         return false;
     }

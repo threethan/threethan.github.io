@@ -193,14 +193,17 @@ async function push_usb(file, to, mode="0644")
 			await sync.quit();
 			sync = null;
 			state = "connected";
+			return true;
 		} else {
             output("Not connected!");
+            return false;
         }
 	}
 	catch(error) {
 		console.log(error);
 		output(error.message);
 		state = "connected";
+		return false;
 	}
 }
 
@@ -235,36 +238,29 @@ async function install() {
         output(`Downloading ${apkAsset.name}...`);
 
         let apkResponse = null;
-
-		// Download the APK file using CORS proxy
-        // Each option will be tried in order if previous fails
-        for (let proxy of [
-            "https://api.codetabs.com/v1/proxy?quest=", 
-            "https://api.cors.syrins.tech/?url=", // Likely to hit size limit
-            "https://corsproxy.io/?url=", // Wants payment now
-            "https://api.allorigins.win/raw?url=" // Likely to hit size limit
-        ]
-        ) {
-            try {
-                apkResponse = await fetch(proxy + encodeURI(apkAsset.browser_download_url));
-                if (!apkResponse.ok) {
-                    throw new Error(`Failed to download APK: ${apkResponse.statusText}`);
-                }
-                break; // Exit loop on success
-            } catch (error) {
-                console.warn(`Download attempt failed with ${proxy}:`, error);
-            }
+        try {
+            apkResponse = await fetch(apkAsset.browser_download_url);
+            if (!apkResponse.ok) apkResponse = null;
+        } catch (e) {
+            console.log("Release download failed, using bundled APK", e);
+            apkResponse = null;
         }
-        if (apkResponse == null || !apkResponse.ok) {
-            output("Could not download latest APK, using local...");
-            apkResponse = await fetch("res/Quest-Game-Tuner.apk");
+        if (apkResponse == null) {
+            output("Could not download the release, using bundled APK...");
+            apkResponse = await fetch("res/QuestGameTuner.apk");
+            if (!apkResponse.ok)
+                throw new Error("Could not download the APK");
         }
 
         const apkBlob = await apkResponse.blob();
+        // A 404/error page would be far too small to be a real APK
+        if (apkBlob.size < 1024 * 1024)
+            throw new Error("Downloaded APK is invalid (only " + apkBlob.size + " bytes)");
         output(`Downloaded ${apkAsset.name} (${Math.round(apkBlob.size / 1024)} KB)`);
 
         // Use the downloaded file instead of local file
-        await push_usb(apkBlob, "/data/local/tmp/" + apkAsset.name, "0644");
+        if (!await push_usb(apkBlob, "/data/local/tmp/" + apkAsset.name, "0644"))
+            throw new Error("Could not push the APK to your " + get_device_name());
         console.log(`Pushed ${apkAsset.name} from ${releaseData.tag_name} release`);
 
         output("Installing APK (This might take a bit)...");
